@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <iframe width="0" height="0" src="https://www.youtube.com/embed/kuCYJiGM6qg?autoplay=1&loop=1&playlist=kuCYJiGM6qg"
+        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walentynkowe pytanie</title>
+    <style>
+        body {
+            background-color: pink;
+            overflow: hidden;
+            /* Ukrywa poziome przewijanie */
+        }
+
+        .container {
+            text-align: center;
+            padding-top: 50px;
+            position: relative;
+            z-index: 1;
+        }
+
+        button {
+            font-size: 20px;
+            margin: 10px;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            position: absolute;
+            background-color: #ffcccc;
+            /* Kolor tła przycisków */
+            border-radius: 20px;
+            /* Zaokrąglenie krawędzi */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* Cień */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            /* Efekt przejścia */
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            /* Przesunięcie w górę po najechaniu */
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+            /* Zwiększony cień po najechaniu */
+        }
+
+        #yes {
+            left: calc(50% - 100px);
+            /* przesuwa TAK do centrum */
+        }
+
+        #no {
+            left: calc(50% + 20px);
+            /* przesuwa NIE trochę w prawo */
+        }
+
+        h1,
+        #yes {
+            z-index: 1;
+            /* Ustawia napis i przycisk TAK na wierzchu */
+        }
+
+        /* Animacja gwiazdek */
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background-color: #fff;
+            border-radius: 50%;
+            opacity: 0;
+            /* Początkowo gwiazdki niewidoczne */
+            animation: shine 5s infinite;
+            /* Animacja trwająca 5 sekund, powtarzająca się nieskończoność razy */
+        }
+
+        @keyframes shine {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.5);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+        }
+
+        /* Stylizacja wiersza */
+        .loveMessage {
+            display: none;
+            font-size: 24px;
+            font-style: italic;
+            color: #ff3333;
+            position: absolute;
+            bottom: 250px;
+            /* Umieszczenie tekstu na dole */
+            left: 50%;
+            transform: translateX(-50%);
+            /* Ustawienie wiersza na środku */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Gwiazdki -->
+    <div class="stars"></div>
+
+    <!-- Treść strony -->
+    <div class="container">
+        <h1>Wariatko, czy zostaniesz moją walentynką?</h1>
+        <button id="yes" onclick="showLove()">TAK</button>
+        <button id="no" onmouseover="moveNo()">NIE</button>
+    </div>
+    <p class="loveMessage" id="loveMessage">Tyś wariatka serce moje,<br>Moja zgubo, wiesz, co powiem?<br>Ja Gosieńkę
+        kocham bardzo,<br>Za nic oddać, jak przystało.<br><br>Dziś oglądam zdjęcie twoje,<br>Patrzę, cieszę się, czy tak
+        mogę?<br>Dziś samemu piszę kod,<br>To Gosieńka, co za moc.<br><br>Czy to prawda, czy to kłamstwo,<br>Że Gosieńki
+        wciąż mi mało,<br>Byle piątek i znowu razem,<br>Ja nie oddam jej tym razem.</p>
+
+    <script>
+        function showLove() {
+            document.getElementById('loveMessage').style.display = 'block';
+        }
+
+        function moveNo() {
+            var buttonNo = document.getElementById('no');
+            var maxWidth = window.innerWidth - buttonNo.offsetWidth;
+            var maxHeight = window.innerHeight - buttonNo.offsetHeight;
+            var newX = Math.random() * maxWidth;
+            var newY = Math.random() * maxHeight;
+
+            // Unikaj najechania na napis i przycisk TAK
+            var h1Rect = document.querySelector('h1').getBoundingClientRect();
+            var yesButtonRect = document.getElementById('yes').getBoundingClientRect();
+            while (
+                newX >= h1Rect.left && newX <= h1Rect.right &&
+                newY >= h1Rect.top && newY <= h1Rect.bottom
+            ) {
+                newX = Math.random() * maxWidth;
+                newY = Math.random() * maxHeight;
+            }
+            while (
+                newX >= yesButtonRect.left && newX <= yesButtonRect.right &&
+                newY >= yesButtonRect.top && newY <= yesButtonRect.bottom
+            ) {
+                newX = Math.random() * maxWidth;
+                newY = Math.random() * maxHeight;
+            }
+
+            buttonNo.style.left = newX + 'px';
+            buttonNo.style.top = newY + 'px';
+        }
+
+        // Generuj gwiazdki
+        var starsContainer = document.querySelector('.stars');
+        for (var i = 0; i < 200; i++) { // Zwiększamy ilość gwiazdek
+            var star = document.createElement('div');
+            star.classList.add('star');
+            star.style.left = Math.random() * window.innerWidth + 'px';
+            star.style.top = Math.random() * window.innerHeight + 'px';
+            starsContainer.appendChild(star);
+        }
+    </script>
+</body>
+
+</html>
